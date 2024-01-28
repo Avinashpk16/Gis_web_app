@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([20.5937, 78.9629], 5); // Set default center to India (latitude, longitude, zoom level)
+
+        var osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        });
+
+        var satelliteLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: '© Mapbox',
+            id: 'mapbox/satellite-v9',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'sk.eyJ1IjoiYXZpbmFzaHBrMTYiLCJhIjoiY2xyeDg5Y2NjMTc0YjJrbXJqc3pleHkzNCJ9.hcpfDSh_rpIgC0UsnJxzVQ'
+        });
+
+        var baseLayers = {
+            "OpenStreetMap": osmLayer,
+            "Satellite": satelliteLayer
+        };
+
+        L.control.layers(baseLayers).addTo(map);
+
+        osmLayer.addTo(map);
+
+        function searchLocation() {
+            var query = document.getElementById('searchInput').value;
+            if (query.trim() !== '') {
+                // Perform geocoding request and center map on the searched location
+            } else {
+                alert('Please enter a location to search');
+            }
+        }
+
+        
+    </script>
+
+    <input type="text" id="searchInput" placeholder="Search for a location...">
+    <button onclick="searchLocation()">Search</button>
+
+</body>
+
+</html>
